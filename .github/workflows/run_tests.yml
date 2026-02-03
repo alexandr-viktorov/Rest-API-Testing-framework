@@ -1,15 +1,15 @@
 name: Automated tests
 on:
-  workflow_dispatch:
-    inputs:
-        deployment_target:
-          description: 'Deployment target environment'
-          required: true
-          default: 'staging'
-            type: choice
-            options:    
-              - all tests
-              - test create object
+    workflow_dispatch:
+        inputs:
+            deployment_target:
+                description: 'Deployment target environment'
+                required: true
+                default: 'all tests'
+                type: choice
+                options:    
+                - all tests
+                - test create object
 jobs:
   test:
     runs-on: ubuntu-latest
