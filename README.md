@@ -138,10 +138,47 @@ The project includes a GitHub Actions workflow that:
 ### Workflow Trigger:
 The pipeline runs automatically on every push to the repository.
 
-### Viewing Reports:
-After pipeline execution, reports are available:
-- As workflow artifacts (downloadable)
-- On GitHub Pages (if configured)
+### Viewing Reports on GitHub Actions:
+
+There are two ways to view Allure reports from GitHub Actions:
+
+#### Method 1: Download Artifacts (Immediate Access)
+1. Go to your repository on GitHub
+2. Click on the **Actions** tab
+3. Select the workflow run you want to view
+4. Scroll down to the **Artifacts** section at the bottom of the page
+5. Download either:
+   - `allure-results` - Raw test results (need Allure CLI to view)
+   - `allure-report` - Complete HTML report (ready to view)
+6. Extract the downloaded zip file
+7. Open `index.html` from the `allure-report` folder in your browser
+
+#### Method 2: GitHub Pages (Automatic Publishing)
+
+The workflow automatically publishes reports to GitHub Pages. To enable this:
+
+1. **Enable GitHub Pages** (one-time setup):
+   - Go to your repository **Settings**
+   - Navigate to **Pages** section (left sidebar)
+   - Under **Source**, select **Deploy from a branch**
+   - Select branch: `gh-pages` and folder: `/ (root)`
+   - Click **Save**
+
+2. **Grant Workflow Permissions** (if needed):
+   - Go to **Settings** > **Actions** > **General**
+   - Scroll to **Workflow permissions**
+   - Select **Read and write permissions**
+   - Check **Allow GitHub Actions to create and approve pull requests**
+   - Click **Save**
+
+3. **Access the Report**:
+   - After the workflow completes, the report will be available at:
+     ```
+     https://<your-username>.github.io/<repository-name>/
+     ```
+   - Each workflow run updates the report automatically
+
+**Note**: The first deployment may take a few minutes to become available. Subsequent updates are faster.
 
 ## Configuration
 
