@@ -223,6 +223,16 @@ Key dependencies (see [requirements.txt](requirements.txt) for full list):
    - Check internet connectivity
    - Verify API endpoint: https://api.restful-api.dev/objects
 
+4. **GitHub Pages not publishing**:
+   - Verify workflow permissions are set to "Read and write"
+   - Check that `gh-pages` branch exists after first workflow run
+   - Ensure GitHub Pages is enabled in repository settings
+   - Wait a few minutes for first deployment
+
+5. **Workflow fails at "Publish Allure Report" step**:
+   - Check if `GITHUB_TOKEN` has sufficient permissions
+   - Verify the workflow permissions in Settings > Actions > General
+
 ## Contributing
 
 1. Fork the repository
