@@ -1,5 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","755","Verify deletion of an object","tests","Tue Feb 03 20:50:59 UTC 2026","passed","Tue Feb 03 20:51:00 UTC 2026","TestObjectsAPI","test_demo","",""
-"","427","Verify full update (PUT) of an object","tests","Tue Feb 03 20:50:58 UTC 2026","passed","Tue Feb 03 20:50:58 UTC 2026","TestObjectsAPI","test_demo","",""
-"","372","Verify retrieval of a specific object by ID","tests","Tue Feb 03 20:50:57 UTC 2026","passed","Tue Feb 03 20:50:57 UTC 2026","TestObjectsAPI","test_demo","",""
-"","505","Verify creation of a new object","tests","Tue Feb 03 20:50:56 UTC 2026","passed","Tue Feb 03 20:50:56 UTC 2026","TestObjectsAPI","test_demo","",""
+"","482","Verify creation of a new object","tests","Tue Feb 03 21:21:32 UTC 2026","passed","Tue Feb 03 21:21:32 UTC 2026","TestObjectsAPI","test_demo","",""

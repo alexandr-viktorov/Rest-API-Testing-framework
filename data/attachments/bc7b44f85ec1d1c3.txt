@@ -1,3 +1,0 @@
-{'name': 'Example Device', 'data': {'year': 2024, 'price': 999.99, 'CPU model': 'Intel Core i7-13700K', 'Hard disk size': '1 TB'}}
-<Response [200]>
-None
