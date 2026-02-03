@@ -1,0 +1,1 @@
+successful_delete_message = f"Object with id = {id}, has been deleted."
