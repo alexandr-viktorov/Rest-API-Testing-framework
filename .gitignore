@@ -33,7 +33,7 @@ pytest_cache/
 .cache/
 
 # Test results and reports
-allure-results/
+allure-results/.
 results/
 reports/
 *.xml
