@@ -13,7 +13,7 @@ create_payloads = [
 
 update_payloads = [
     {
-        "name": "HP Spectre x360 14 (2024) ©",
+        "name": "HP Spectre x360 14 (2024)©",
         "data": {
             "year": 2024,
             "price": 1849.49,
