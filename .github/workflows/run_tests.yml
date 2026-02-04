@@ -102,7 +102,7 @@ jobs:
         - name: fail test
           if: "github.event.inputs.deployment_target == 'fail test'"    
           run: 
-            python -m pytest tests/test_demo.py::TestObjectsAPI::test_flakiness[2] --alluredir allure-results
+            python -m pytest tests/test_demo.py::TestObjectsAPI::test_flakiness --value=2 --alluredir allure-results
           continue-on-error: true  
         - name: Upload Allure Report
           uses: actions/upload-artifact@v4

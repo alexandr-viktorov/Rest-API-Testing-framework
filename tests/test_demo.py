@@ -50,6 +50,6 @@ class TestObjectsAPI:
 
     @allure.story("Test flakinness")
     @allure.title("Verify test flakinness")
-    @pytest.mark.parametrize('input_value', [1, 2])
-    def test_flakinness(self, input_value=1):
+    def test_flakinness(self, pytestconfig):
+        input_value = pytestconfig.getoption("input_value")
         assert 1 == input_value

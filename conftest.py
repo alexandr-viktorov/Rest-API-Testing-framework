@@ -20,3 +20,6 @@ def obj_id():
     yield create_object.response_json['id']
     delete_object = DeleteObject()
     delete_object.delete_by_id(create_object.response_json['id'])
+
+def pytest_addoption(parser):
+    parser.addoption("--value", action="store", default=1)
