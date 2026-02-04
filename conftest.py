@@ -22,4 +22,4 @@ def obj_id():
     delete_object.delete_by_id(create_object.response_json['id'])
 
 def pytest_addoption(parser):
-    parser.addoption("--value", action="store", default=1)
+    parser.addoption("--input_value", action="store", type=int, default=1)

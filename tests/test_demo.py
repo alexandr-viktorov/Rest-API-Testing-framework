@@ -50,6 +50,6 @@ class TestObjectsAPI:
 
     @allure.story("Test flakinness")
     @allure.title("Verify test flakinness")
-    def test_flakinness(self, pytestconfig):
+    def test_flakiness(self, pytestconfig):
         input_value = pytestconfig.getoption("input_value")
         assert 1 == input_value
