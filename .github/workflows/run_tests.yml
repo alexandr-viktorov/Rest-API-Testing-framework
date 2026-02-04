@@ -10,6 +10,7 @@ on:
                 options:    
                 - all tests
                 - test create object
+                
 permissions:
   contents: read
   pages: write
