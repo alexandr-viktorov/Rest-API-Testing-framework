@@ -56,11 +56,11 @@ jobs:
         run: >
           mkdir old_pages pages_history && unzip pages.zip -d old_pages 
           &&
-          ter -xvf old_pages/artifact.tar -C pages_history|| echo "No previous GitHub Pages"
+          ter -xvf old_pages/artifact.tar -C pages_history
       - name: Copy allure-results to pages_history
         run: >
-          cp -r pages_history/history/* allure-results/ || echo "No previous pages to copy" &&        
-          cp -r pages_history/history allure-results/ || echo "No previous allure report to copy"
+          cp -r pages_history/history/* allure-results &&        
+          cp -r pages_history/history allure-results
       - name: Store Allure Results History
         uses: actions/upload-artifact@v4
         with:
