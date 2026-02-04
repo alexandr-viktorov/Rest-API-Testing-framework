@@ -102,9 +102,11 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: allure-results
-            path: allure-results
+            path:
+              allure-results
             retention-days: 1
-            overwrite: true
+          continue-on-error: true
+
             
 
   generate-report:
