@@ -105,6 +105,7 @@ jobs:
             path:
               allure-results
             retention-days: 1
+            overwrite: true
           continue-on-error: true
 
             
