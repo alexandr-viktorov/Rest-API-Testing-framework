@@ -50,9 +50,9 @@ jobs:
           "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$REPORT_ID/zip"
           --output pages.zip
       - name: Unzip Allure Results
-        run: mkdir allure-results && unzip artifact.zip -d ./allure-results || echo "No previous allure results
+        run: mkdir allure-results && unzip artifact.zip -d allure-results || echo "No previous allure results
       - name: Unzip old GitHub Pages 
-        run: mkdir old_pages page_history && unzip pages.zip -d ./old_pages || echo "No previous GitHub Pages"
+        run: mkdir old_pages page_history && unzip pages.zip -d old_pages || echo "No previous GitHub Pages"
       - name: Copy allure-results to page_history
         run: >
           cp -r pages_history/history/* allure-results/ || echo "No previous pages to copy" &&        
