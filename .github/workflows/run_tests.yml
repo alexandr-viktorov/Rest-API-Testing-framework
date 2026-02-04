@@ -109,7 +109,7 @@ jobs:
         - name: Insstall Java
           uses: actions/setup-java@v4
           with:
-            distribution: 'Microsoft'
+            distribution: 'microsoft'
             java-version: '17'
         - name: Install Allure CLI
           run: |
