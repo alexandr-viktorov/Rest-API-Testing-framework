@@ -112,7 +112,6 @@ jobs:
               allure-results
             retention-days: 1
             overwrite: true
-          continue-on-error: true
 
             
 
@@ -158,6 +157,7 @@ jobs:
       
 
      
+
 
 
 
