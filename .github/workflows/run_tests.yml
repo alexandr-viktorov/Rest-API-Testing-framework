@@ -120,8 +120,7 @@ jobs:
         - name: Download all wokflow artifacts
           uses: actions/download-artifact@v4
         - name: Generate Allure Report
-          run: |
-            allure generate allure-results/ -o allure-report/ --clean
+          run: allure generate allure-results/ -o _site --clean
         - name: Store generated report
           uses: actions/upload-artifact@v4
           with:
