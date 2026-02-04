@@ -10,9 +10,65 @@ on:
                 options:    
                 - all tests
                 - test create object
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
+  download-history:
+    runs-on: ubuntu-latest
+    name: Download test history
+    steps:
+      - name: setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.14.2'
+      - run: >
+          ARTIFATC_ID=$(curl -L
+          -H "Accept: application/vnd.github+json"
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts?name=allure-results"
+          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id'])")
+          &&
+          curl -L 
+          -H "Accept: application/vnd.github+json"
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFATC_ID/zip
+          --output artifact.zip"
+          &&
+          REPORT_ID=$(curl -L
+          -H "Accept: application/vnd.github+json"
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts?name=github-pages"
+          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id'])")
+          &&
+          curl -L
+          -H "Accept: application/vnd.github+json"
+          -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"
+          -H "X-GitHub-Api-Version: 2022-11-28"
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$REPORT_ID/zip
+          --output pages.zip"
+      - name: Unzip Allure Results
+        run: mkdir allure-results && unzip artifact.zip -d ./allure-results || echo "No previous allure results
+      - name: Unzip old GitHub Pages 
+        run: mkdir old_pages page_history && unzip pages.zip -d ./old_pages || echo "No previous GitHub Pages"
+      - name: Copy allure-results to page_history
+        run: >
+          cp -r pages_history/history/* allure-results/ || echo "No previous pages to copy" &&        
+          cp -r pages_history/history allure-results/ || echo "No previous allure report to copy"
+      - name: Store Allure Results History
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+          retention-days: 1
+
+
   test:
     runs-on: ubuntu-latest
+    needs: download-history
+    name: Run tests
     steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -26,33 +82,65 @@ jobs:
             pip install -r requirements.txt
         - name: create allure-results directory
           run: mkdir allure-results
+        - name: Download Allure Results History
+          uses: actions/download-artifact@v4
         - name: all tests
           if: "github.event.inputs.deployment_target == 'all tests'"    
           run: 
             python -m pytest tests/ --alluredir allure-results/
+          continue-on-error: true
         - name: test create object
           if: "github.event.inputs.deployment_target == 'test create object'"    
           run: 
             python -m pytest tests/test_demo.py::TestObjectsAPI::test_create_object --alluredir allure-results/
+          continue-on-error: true
         - name: Upload Allure Report
           uses: actions/upload-artifact@v4
           with:
             name: allure-results
             path: allure-results/
+            retention-days: 1
+
+  generate-report:
+    runs-on: ubuntu-latest
+    needs: test
+    name: Generate Allure Report
+    steps:
+        - name: Insstall Java
+          uses: actions/setup-java@v4
+          with:
+            distribution: 'Microsoft'
+            java-version: '17'
         - name: Install Allure CLI
           run: |
             sudo wget https://github.com/allure-framework/allure2/releases/download/2.32.0/allure-2.32.0.tgz
             sudo tar -zxf allure-2.32.0.tgz -C /opt/
             sudo ln -s /opt/allure-2.32.0/bin/allure /usr/bin/allure
             allure --version
+        - name: Download all wokflow artifacts
+          uses: actions/download-artifact@v4
         - name: Generate Allure Report
           run: |
             allure generate allure-results/ -o allure-report/ --clean
-        - name: Upload Allure Report Artifact
+        - name: Store generated report
           uses: actions/upload-artifact@v4
           with:
-            name: allure-report
-            path: allure-report/
+            name: _site
+            path: _site
+            retention-days: 1
+            
+  publish-report:
+    runs-on: ubuntu-latest
+    needs: generate-report
+    name: Publish Allure Report
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: Upload Pages artifact
+          uses: actions/upload-pages-artifact@v4
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v4
         - name: Publish Allure Report
           uses: peaceiris/actions-gh-pages@v4
           with:
