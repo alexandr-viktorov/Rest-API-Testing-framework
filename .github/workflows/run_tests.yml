@@ -52,8 +52,11 @@ jobs:
       - name: Unzip Allure Results
         run: mkdir allure-results && unzip artifact.zip -d allure-results || echo "No previous allure results"
       - name: Unzip old GitHub Pages 
-        run: mkdir old_pages page_history && unzip pages.zip -d old_pages || echo "No previous GitHub Pages"
-      - name: Copy allure-results to page_history
+        run: >
+          mkdir old_pages pages_history && unzip pages.zip -d old_pages 
+          &&
+          ter -xvf old_pages/artifact.tar -C pages_history|| echo "No previous GitHub Pages"
+      - name: Copy allure-results to pages_history
         run: >
           cp -r pages_history/history/* allure-results/ || echo "No previous pages to copy" &&        
           cp -r pages_history/history allure-results/ || echo "No previous allure report to copy"
@@ -61,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
-          path: allure-results/
+          path: allure-results
           retention-days: 1
 
 
@@ -87,20 +90,20 @@ jobs:
         - name: all tests
           if: "github.event.inputs.deployment_target == 'all tests'"    
           run: 
-            python -m pytest tests/ --alluredir allure-results/
+            python -m pytest tests/ --alluredir allure-results
           continue-on-error: true
         - name: test create object
           if: "github.event.inputs.deployment_target == 'test create object'"    
           run: 
-            python -m pytest tests/test_demo.py::TestObjectsAPI::test_create_object --alluredir allure-results/
+            python -m pytest tests/test_demo.py::TestObjectsAPI::test_create_object --alluredir allure-results
           continue-on-error: true
         - name: Upload Allure Report
           uses: actions/upload-artifact@v4
           with:
             name: allure-results
-            path: allure-results/
+            path: allure-results
             retention-days: 1
-            overwrite: true
+            
 
   generate-report:
     runs-on: ubuntu-latest
