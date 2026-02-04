@@ -34,7 +34,7 @@ jobs:
           curl -L 
           -H "Accept: application/vnd.github+json"
           -H "Authorization: Bearer ${{ secrets.ACTION_TOKEN }}"
-          https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFATC_ID/zip
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFATC_ID/zip"
           --output artifact.zip
           &&
           REPORT_ID=$(curl -L
@@ -47,7 +47,7 @@ jobs:
           -H "Accept: application/vnd.github+json"
           -H "Authorization: Bearer ${{ secrets.ACTION_TOKEN }}"
           -H "X-GitHub-Api-Version: 2022-11-28"
-          https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$REPORT_ID/zip
+          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$REPORT_ID/zip"
           --output pages.zip
       - name: Unzip Allure Results
         run: mkdir allure-results && unzip artifact.zip -d ./allure-results || echo "No previous allure results
@@ -149,3 +149,4 @@ jobs:
             commit_message: "Update Allure Report"
 
      
+
