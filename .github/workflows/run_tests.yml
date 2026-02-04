@@ -134,8 +134,8 @@ jobs:
     needs: generate-report
     name: Publish Allure Report
     steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+        - name: Download all wokflow artifacts
+          uses: actions/download-artifact@v4
         - name: Upload Pages artifact
           uses: actions/upload-pages-artifact@v4
         - name: Deploy to GitHub Pages
