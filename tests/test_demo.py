@@ -47,3 +47,9 @@ class TestObjectsAPI:
         get_object_endpoint = GetObject()
         get_object_endpoint.get_by_id(obj_id)
         get_object_endpoint.check_response_is_404()
+
+    @allure.story("Test flakinness")
+    @allure.title("Verify test flakinness")
+    @pytest.mark.parametrize('input_value', [1, 2])
+    def test_flakinness(self, input_value=1):
+        assert 1 == input_value
