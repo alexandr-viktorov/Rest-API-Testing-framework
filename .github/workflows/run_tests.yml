@@ -16,58 +16,58 @@ permissions:
   id-token: write
 
 jobs:
-  download-history:
-    runs-on: ubuntu-latest
-    name: Download test history
-    steps:
-      - name: setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.14.2'
-      - run: >
-          ARTIFATC_ID=$(curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts?name=allure-results"
-          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id'])")
-          &&
-          curl -L 
-          -H "Accept: application/vnd.github+json"
-          -H "Authorization: Bearer ${{ secrets.ACTION_TOKEN }}"
-          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFATC_ID/zip"
-          --output artifact.zip
-          &&
-          REPORT_ID=$(curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts?name=github-pages"
-          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id'])")
-          &&
-          curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "Authorization: Bearer ${{ secrets.ACTION_TOKEN }}"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$REPORT_ID/zip"
-          --output pages.zip
-      - name: Unzip Allure Results
-        run: mkdir allure-results && unzip artifact.zip -d allure-results || echo "No previous allure results
-      - name: Unzip old GitHub Pages 
-        run: mkdir old_pages page_history && unzip pages.zip -d old_pages || echo "No previous GitHub Pages"
-      - name: Copy allure-results to page_history
-        run: >
-          cp -r pages_history/history/* allure-results/ || echo "No previous pages to copy" &&        
-          cp -r pages_history/history allure-results/ || echo "No previous allure report to copy"
-      - name: Store Allure Results History
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: allure-results/
-          retention-days: 1
+#  download-history:
+#    runs-on: ubuntu-latest
+#    name: Download test history
+#    steps:
+#      - name: setup Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.14.2'
+#      - run: >
+#          ARTIFATC_ID=$(curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts?name=allure-results"
+#          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id'])")
+#          &&
+#          curl -L 
+#          -H "Accept: application/vnd.github+json"
+#          -H "Authorization: Bearer ${{ secrets.ACTION_TOKEN }}"
+#          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFATC_ID/zip"
+#          --output artifact.zip
+#          &&
+#          REPORT_ID=$(curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts?name=github-pages"
+#          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id'])")
+#          &&
+#          curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "Authorization: Bearer ${{ secrets.ACTION_TOKEN }}"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$REPORT_ID/zip"
+#          --output pages.zip
+#      - name: Unzip Allure Results
+#        run: mkdir allure-results && unzip artifact.zip -d allure-results || echo "No previous allure results
+#      - name: Unzip old GitHub Pages 
+#        run: mkdir old_pages page_history && unzip pages.zip -d old_pages || echo "No previous GitHub Pages"
+#      - name: Copy allure-results to page_history
+#        run: >
+#          cp -r pages_history/history/* allure-results/ || echo "No previous pages to copy" &&        
+#          cp -r pages_history/history allure-results/ || echo "No previous allure report to copy"
+#      - name: Store Allure Results History
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: allure-results
+#         path: allure-results/
+#          retention-days: 1
 
 
   test:
     runs-on: ubuntu-latest
-    needs: download-history
+    #needs: download-history
     name: Run tests
     steps:
         - name: Checkout repository
@@ -82,8 +82,8 @@ jobs:
             pip install -r requirements.txt
         - name: create allure-results directory
           run: mkdir allure-results
-        - name: Download Allure Results History
-          uses: actions/download-artifact@v4
+       # - name: Download Allure Results History
+       #   uses: actions/download-artifact@v4
         - name: all tests
           if: "github.event.inputs.deployment_target == 'all tests'"    
           run: 
