@@ -1,17 +1,17 @@
 name: Automated tests
 on:
-    workflow_dispatch:
-        inputs:
-            deployment_target:
-                description: 'Deployment target environment'
-                required: true
-                default: 'all tests'
-                type: choice
-                options:    
-                - all tests
-                - test create object
-                - fail flakiness test
-                - pass flakiness test
+  workflow_dispatch:
+      inputs:
+          deployment_target:
+              description: 'Deployment target environment'
+              required: true
+              default: 'all tests'
+              type: choice
+              options:    
+              - all tests
+              - test create object
+              - fail flakiness test
+              - pass flakiness test
                 
 permissions:
   contents: read
