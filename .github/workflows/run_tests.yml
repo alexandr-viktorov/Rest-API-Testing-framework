@@ -58,7 +58,7 @@ jobs:
         run: >
           mkdir old_pages pages_history && unzip pages.zip -d old_pages 
           &&
-          tar -xvf old_pages/artifact.tar -C pages_history
+          tar -xvf old_pages/artifact.tar -C pages_history || echo "No previous pages history"
       - name: Copy allure-results to pages_history
         run: >
           cp -r pages_history/history/* allure-results &&        
@@ -162,6 +162,7 @@ jobs:
       
 
      
+
 
 
 
