@@ -12,6 +12,7 @@ import allure
 class TestObjectsAPI:
     @allure.story("Create Object")
     @allure.title("Verify creation of a new object")
+    @allure.testcase("Test creation of a new object with valid data")
     @pytest.mark.parametrize('payload', payloads.create_payloads)
     def test_create_object(self,payload):
         new_object_endpoint = CreateObject()
@@ -21,6 +22,7 @@ class TestObjectsAPI:
 
     @allure.story("Get Object")
     @allure.title("Verify retrieval of a specific object by ID")
+    @allure.testcase("Test retrieval of an existing object")
     def test_get_object(self, obj_id):
         get_object_endpoint = GetObject()
         get_object_endpoint.get_by_id(obj_id)
@@ -30,6 +32,7 @@ class TestObjectsAPI:
 
     @allure.story("Update Object")
     @allure.title("Verify full update (PUT) of an object")
+    @allure.testcase("Test full update of an existing object")
     @pytest.mark.parametrize('payload', payloads.update_payloads)
     def test_update_object(self, obj_id, payload):
         update_object_endpoint = UpdateObject()
@@ -40,6 +43,7 @@ class TestObjectsAPI:
 
     @allure.story("Delete Object")
     @allure.title("Verify deletion of an object")
+    @allure.testcase("Test deletion of an existing object")
     def test_delete_object(self, obj_id):
         delete_object_endpoint = DeleteObject()
         delete_object_endpoint.delete_by_id(obj_id)
@@ -50,6 +54,7 @@ class TestObjectsAPI:
 
     @allure.story("Test flakinness")
     @allure.title("Verify test flakinness")
+    @allure.testcase("Test flakinness")
     def test_flakiness(self, pytestconfig):
         input_value = pytestconfig.getoption("input_value")
         assert 1 == input_value
