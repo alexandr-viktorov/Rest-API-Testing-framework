@@ -54,12 +54,12 @@ jobs:
           --output pages.zip
       - name: Unzip Allure Results
         run: |
-          { mkdir allure-results && unzip artifact.zip -d allure-results } || echo "No previous allure results"
+          { mkdir allure-results && unzip artifact.zip -d allure-results; } || echo "No previous allure results"
       - name: Unzip old GitHub Pages 
         run: >
-          {mkdir old_pages pages_history && unzip pages.zip -d old_pages 
+          { mkdir old_pages pages_history && unzip pages.zip -d old_pages 
           &&
-          tar -xvf old_pages/artifact.tar -C pages_history} || echo "No previous pages history"
+          tar -xvf old_pages/artifact.tar -C pages_history; } || echo "No previous pages history"
       - name: Copy allure-results to pages_history
         run: >
           cp -r pages_history/history/* allure-results &&        
@@ -163,6 +163,7 @@ jobs:
       
 
      
+
 
 
 
